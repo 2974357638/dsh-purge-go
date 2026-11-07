@@ -1,23 +1,35 @@
 <div align="center">
 
-# dsh-purge Community
+# dsh-purge · DSH Go 版
 
 **让 AI 更专注地辅助你的学习与动手实验。**
 
 给 DeepSeek Harness 的自托管控件（俗称「破甲」插件）· 86 条宿主补丁 · 25 层状态自检 · 左侧栏整页设置
 
-[![Release](https://img.shields.io/github/v/release/kingcharleslzy-ai/dsh-purge?label=release)](https://github.com/kingcharleslzy-ai/dsh-purge/releases)
-[![Checks](https://github.com/kingcharleslzy-ai/dsh-purge/actions/workflows/community.yml/badge.svg)](https://github.com/kingcharleslzy-ai/dsh-purge/actions/workflows/community.yml)
+[![Release](https://img.shields.io/github/v/release/2974357638/dsh-purge-go?label=release)](https://github.com/2974357638/dsh-purge-go/releases)
+[![Checks](https://github.com/2974357638/dsh-purge-go/actions/workflows/community.yml/badge.svg)](https://github.com/2974357638/dsh-purge-go/actions/workflows/community.yml)
 
-当前版本 **1.6.84** · 适配 **DSH Desktop 0.2.2-rc.1**（0.2.1-rc.1 / rc.2 / rc.3 / rc.5 同样通过） · [English](docs/README.en.md)
+当前版本 **1.6.85** · 基于社区版 1.6.84，适配 **DSH Desktop 0.2.2-rc.1** · 用户已在 **DSH Go 1.0.12**（内置 DSH 0.2.2-rc.1）验证社区版基本功能 · [English](docs/README.en.md)
 
 1.6.84 为已授权测试入口增加一次性命令执行挑战，区分文件写入与命令执行。[发行说明](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)。
 
-**原项目与作者**：基于 [小杨 / YuJunZhiXue 的 dsh-purge](https://github.com/YuJunZhiXue/dsh-purge) 独立维护。原仓库已恢复；保留原作者署名、版权与 MIT 许可证。社区版由本仓库维护，并非原作者官方发行。
+**来源**：本版基于 [kingcharleslzy-ai 的 dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)；社区版基于 [小杨 / YuJunZhiXue 的 dsh-purge](https://github.com/YuJunZhiXue/dsh-purge)。保留原作者署名、版权与 MIT 许可证。本版不是 DeepSeek、DSH Go、社区版维护者或原作者的官方发行。
 
 </div>
 
 ---
+
+## DSH Go 版说明
+
+本版只调整界面名称、说明文档和发行来源；插件核心逻辑沿用社区版 1.6.84。为保持安装兼容，内部包名仍为 `dsh-purge-community`，命令仍为 `purge-community`。使用者在一台 Android 设备上的 DSH Go 1.0.12 测试过社区版的安装和基本功能；此处新打包的 1.6.85 尚未在该手机上复测。
+
+在 DSH Go 使用 `web` profile 的同一实例中安装或升级：
+
+```sh
+dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
+```
+
+已有社区版时请直接在原 profile 升级，保留设置和备份；安装后重新打开 DSH Go，再用 `purge-community selfcheck --text` 核对状态。下方保留了社区版的桌面功能说明，桌面测试结果不能直接推断为手机端全部通过。
 
 ## 搭配：本机出图（Qwen Studio）
 
@@ -79,7 +91,7 @@ dsh-purge Community 是一个跑在你自己机器上的 Harness 附加组件。
 ### 方式一：DSH 官方界面（首次安装）
 
 1. 先打开 DSH 完成初始化。按当前官方文档，进入「插件」，点击「实验性插件」旁的「更多」，启用「自定义插件市场」；然后进入「发现 → 添加索引源」。
-2. 本项目的**社区索引**：`https://kingcharleslzy-ai.github.io/dsh-purge/index.json`。
+2. 上游社区版的**社区索引**：`https://kingcharleslzy-ai.github.io/dsh-purge/index.json`。此索引安装的是上游社区版；安装本仓库的 DSH Go 版请使用方式二。
 3. 选择 dsh-purge Community，核对来源为 `kingcharleslzy-ai/dsh-purge`、包名为 `dsh-purge-community`，确认后安装。
 
 界面和安装协议由 DSH 提供，索引与插件由社区维护。不同 DSH 版本的入口文字可能不同；第三方 `dsh-market` 也可能有额外的筛选与迁移限制。已有旧包时请使用方式三。[官方市场说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/plugin-market.zh.md)
@@ -89,7 +101,7 @@ dsh-purge Community 是一个跑在你自己机器上的 Harness 附加组件。
 下面命令适用于**已经安装 `dsh` 命令、且使用 `web` profile 的 CLI/Web 用户**，在 macOS/Linux 终端或 Windows PowerShell 中运行。桌面版用户优先用上面的界面；不要为了安装插件再用 `npx` 下载另一套宿主。
 
 ```sh
-dsh plugin --profile web add "https://github.com/kingcharleslzy-ai/dsh-purge/releases/download/v1.6.84/dsh-purge-community-1.6.84.tgz"
+dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
 ```
 
 `web` 必须与实际启动的 profile 一致；自定义数据目录需要沿用该实例的 `DSH_HOME`。命令使用本次发行的固定版本 URL；不是 `npm install -g`，也不是安装裸 npm 包名。本项目通过 GitHub 发行，**不要替换成 `add dsh-purge` 或 `add dsh-purge-community`**。官方 CLI 的安装不会额外运行我们安装器的 Release SHA256 比对及迁移快照；需要这些功能时选方式三。[官方 CLI 安装说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/develop/basic/publish.zh.md)
@@ -104,7 +116,7 @@ dsh plugin --profile web add "https://github.com/kingcharleslzy-ai/dsh-purge/rel
 
 ```sh
 PURGE_INSTALL_DIR="$(mktemp -d)"
-curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/kingcharleslzy-ai/dsh-purge/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
+curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
 sh "$PURGE_INSTALL_DIR/install.sh" --dry-run
 ```
 
@@ -122,7 +134,7 @@ sh "$PURGE_INSTALL_DIR/install.sh"
 
 ```powershell
 $PurgeInstaller = Join-Path $env:TEMP ('purge-install-' + [guid]::NewGuid().ToString('N') + '.ps1')
-Invoke-WebRequest -UseBasicParsing -TimeoutSec 90 -Uri 'https://raw.githubusercontent.com/kingcharleslzy-ai/dsh-purge/master/scripts/install.ps1' -OutFile $PurgeInstaller
+Invoke-WebRequest -UseBasicParsing -TimeoutSec 90 -Uri 'https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.ps1' -OutFile $PurgeInstaller
 powershell -NoProfile -ExecutionPolicy Bypass -File "$PurgeInstaller" -DryRun
 ```
 
@@ -140,7 +152,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$PurgeInstaller"
 
 ```sh
 PURGE_INSTALL_DIR="$(mktemp -d)"
-curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/kingcharleslzy-ai/dsh-purge/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
+curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
 sh "$PURGE_INSTALL_DIR/install.sh" --dry-run
 ```
 
@@ -191,7 +203,7 @@ sh "$PURGE_INSTALL_DIR/install.sh" --dry-run
 
 | 组件 | 值 |
 | --- | --- |
-| 插件 | `dsh-purge-community` 1.6.84 |
+| 插件 | `dsh-purge-community` 1.6.85 |
 | 已验证宿主 | DSH Desktop 0.2.2-rc.1 / 0.2.1-rc.1 / 0.2.1-rc.2 / 0.2.1-rc.3 / 0.2.1-rc.5 |
 | 其它宿主 | 允许安装，自检会标「未验证」；先看 `diagnose` |
 | Node | ≥18（桌面版自带运行时即可）；红队工具需 ≥22.5（`node:sqlite`） |

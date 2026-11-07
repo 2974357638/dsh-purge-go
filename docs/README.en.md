@@ -1,20 +1,24 @@
 <div align="center">
 
-# dsh-purge Community
+# dsh-purge · DSH Go Edition
 
 **Helping your AI assistant stay focused on your learning and hands-on work.**
 
 A self-hosted add-on for DeepSeek Harness (known in the community as a 破甲 / "jailbreak" plugin) · 86 host patches · 25 status layers
 
-[![Release](https://img.shields.io/github/v/release/kingcharleslzy-ai/dsh-purge?label=release)](https://github.com/kingcharleslzy-ai/dsh-purge/releases)
+[![Release](https://img.shields.io/github/v/release/2974357638/dsh-purge-go?label=release)](https://github.com/2974357638/dsh-purge-go/releases)
 
-Current version 1.6.84 · targets **DSH Desktop 0.2.1-rc.5** (rc.1 / rc.2 / rc.3 also pass)
+Current version 1.6.85 · based on dsh-purge Community 1.6.84 · community build tested by a user on **DSH Go 1.0.12**
 
-**Original project and author:** independently maintained from [dsh-purge by 小杨 / YuJunZhiXue](https://github.com/YuJunZhiXue/dsh-purge). The original repository is available again. Original attribution, copyright and the MIT license are retained; this community distribution is not an official upstream release.
+**Provenance:** this edition derives from [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84), which derives from [dsh-purge by 小杨 / YuJunZhiXue](https://github.com/YuJunZhiXue/dsh-purge). Original attribution, copyright and the MIT license are retained. This is not an official release of DeepSeek, DSH Go, the community maintainer, or the original author.
 
 </div>
 
 ---
+
+## DSH Go edition
+
+This edition changes the visible name, documentation, and release source while retaining the community plugin's core behavior and internal package name `dsh-purge-community`. The user tested the community build on one Android device running DSH Go 1.0.12 with DSH 0.2.2-rc.1; this newly packaged edition has not been retested on that phone. Install from [this repository's v1.6.85 release](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85). The community market index mentioned below still points to the upstream community build.
 
 ## What it is
 
@@ -51,7 +55,7 @@ Local learning, personal projects, automation experiments and maintenance work. 
 - CLI/Web users who already have `dsh` on PATH and use the `web` profile can use the official command below. Desktop users should not download another npx host to install into their existing desktop profile.
 
 ```sh
-dsh plugin --profile web add "https://github.com/kingcharleslzy-ai/dsh-purge/releases/download/v1.6.84/dsh-purge-community-1.6.84.tgz"
+dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
 ```
 
 Use the actual instance's profile and `DSH_HOME`. This project distributes via GitHub; do not substitute bare npm package names. The official command does not run our extra Release SHA256 check, migration snapshot or rollback wrapper.
@@ -78,7 +82,7 @@ Two separate preferences (check / install), default check-only every six hours. 
 
 ## Compatibility
 
-Plugin `dsh-purge-community` 1.6.84 · verified on DSH Desktop 0.2.2-rc.1 / 0.2.1-rc.1 / rc.2 / rc.3 / rc.5 · Node ≥ 18.
+Plugin `dsh-purge-community` 1.6.85 · based on Community 1.6.84; the Community build was tested on DSH Go 1.0.12 and verified on DSH Desktop 0.2.2-rc.1 / 0.2.1-rc.1 / rc.2 / rc.3 / rc.5 · Node ≥ 18.
 
 ## Troubleshooting
 

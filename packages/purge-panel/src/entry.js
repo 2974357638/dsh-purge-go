@@ -48,7 +48,7 @@ export function PanelOverlays() {
     // and the red-team environment gate next to the dock.
     h(WelcomeNotice, {
       repo: __COMMUNITY__
-        ? "https://github.com/kingcharleslzy-ai/dsh-purge"
+        ? "https://github.com/2974357638/dsh-purge-go"
         : undefined,
     }),
     h(EnvAdaptSendGate),
@@ -86,7 +86,7 @@ export function apply(ctx) {
         name: "sidebar.panellist",
         id: "dsh-purge",
         order: 30,
-        label: "Purge",
+        label: __COMMUNITY__ ? "DSH Go 版" : "Purge",
         inject: () => ({ t }),
       },
       PurgeGlyphIcon,

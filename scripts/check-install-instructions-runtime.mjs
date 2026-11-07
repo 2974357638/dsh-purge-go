@@ -49,7 +49,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(temp,'package/package.json')));
 const releaseURL = `https://github.com/kingcharleslzy-ai/dsh-purge/releases/download/v${pkg.version}/dsh-purge-community-${pkg.version}.tgz`;
 const ext = process.platform === 'win32' ? 'ps1' : 'sh';
 const script = path.join(temp,`install.${ext}`);
-const response = await fetch(`https://raw.githubusercontent.com/kingcharleslzy-ai/dsh-purge/master/scripts/install.${ext}`, {signal:AbortSignal.timeout(90000)});
+const response = await fetch(`https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.${ext}`, {signal:AbortSignal.timeout(90000)});
 assert(response.ok, 'Installer download must succeed'); fs.writeFileSync(script,await response.text());
 const cliScript = path.join(temp,'package/bin/community.js');
 const reports = [];

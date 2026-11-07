@@ -1,5 +1,9 @@
 # Attribution
 
+## DSH Go edition
+
+This repository is a downstream DSH Go edition of [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84), maintained at https://github.com/2974357638/dsh-purge-go. It changes presentation, documentation, and release metadata while retaining the community package identity and core behavior. It is not an official release of DeepSeek, DSH Go, the community maintainer, or the original author.
+
 dsh-purge Community is an independently maintained fork of **dsh-purge**, original author **小杨 / YuJunZhiXue**:
 https://github.com/YuJunZhiXue/dsh-purge
 

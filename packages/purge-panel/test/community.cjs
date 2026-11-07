@@ -235,7 +235,7 @@ win.confirm = () => true;
     button = (text) =>
       root.findAllByType("button").find((x) => x.children.join("") === text);
   assert(
-    root.findAllByType("h1").some((x) => x.children.join("") === "Purge"),
+    root.findAllByType("h1").some((x) => x.children.join("") === "Purge · DSH Go 版"),
     "page title renders",
   );
   assert(root.findAllByProps({ "aria-label": "社区版维护" }).length);

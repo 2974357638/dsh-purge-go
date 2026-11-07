@@ -211,7 +211,7 @@ export function PurgePage() {
       h(
         "div",
         { className: "dshpp-page-title" },
-        h("h1", null, "Purge"),
+        h("h1", null, __COMMUNITY__ ? "Purge · DSH Go 版" : "Purge"),
         h(
           "p",
           null,
@@ -220,7 +220,7 @@ export function PurgePage() {
             ? h(
                 "span",
                 { className: "dshpp-page-ver" },
-                "社区版 " + __PANEL_VERSION__,
+                "基于社区版 · " + __PANEL_VERSION__,
               )
             : null,
         ),
