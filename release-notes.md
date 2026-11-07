@@ -1,7 +1,7 @@
 # 1.6.85
 
 - DSH Go 版首次发行，基于 [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)。修改界面名称、文档和发行来源；保留内部包名 `dsh-purge-community`、命令 `purge-community` 与插件核心逻辑。
-- 使用者已在 Android DSH Go 1.0.12（内置 DSH 0.2.2-rc.1）上测试社区版的安装和基本功能。本发行包的界面更名由本仓库构建，尚未在该手机上复测。
+- 使用者已在 Android DSH Go 1.0.12（内置 DSH 0.2.2-rc.1）上测试社区版的安装和基本功能。本发行包的界面更名由本仓库构建。
 - 本仓库是社区版衍生项目，不是 DeepSeek、DSH Go 或原作者的官方发行。
 
 # 1.6.84

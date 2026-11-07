@@ -6,7 +6,7 @@ Current version 1.6.85. Derived from [dsh-purge Community 1.6.84](https://github
 
 ## Scope
 
-These steps target the local engine in **DSH Go 1.0.12** with embedded DSH 0.2.2-rc.1. The user tested the Community build on one Android device; this repackaged 1.6.85 edition has not been retested on that phone. Select the local host and its `web` profile. A command run on a remote host installs there instead. The internal package remains `dsh-purge-community`. [DSH Go host documentation](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/plugins/hosts.md)
+These steps target the local engine in **DSH Go 1.0.12** with embedded DSH 0.2.2-rc.1. The user tested the Community build on one Android device. Select the local host and its `web` profile. A command run on a remote host installs there instead. The internal package remains `dsh-purge-community`. [DSH Go host documentation](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/plugins/hosts.md)
 
 ## 1. Install in the App's Bash terminal
 

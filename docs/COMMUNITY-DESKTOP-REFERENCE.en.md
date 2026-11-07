@@ -20,7 +20,7 @@ Current version 1.6.85 · based on dsh-purge Community 1.6.84 · community build
 
 ## DSH Go edition
 
-This edition changes the visible name, documentation, and release source while retaining the community plugin's core behavior and internal package name `dsh-purge-community`. The user tested the community build on one Android device running DSH Go 1.0.12 with DSH 0.2.2-rc.1; this newly packaged edition has not been retested on that phone. Install from [this repository's v1.6.85 release](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85). The community market index mentioned below still points to the upstream community build.
+This edition changes the visible name, documentation, and release source while retaining the community plugin's core behavior and internal package name `dsh-purge-community`. The user tested the community build on one Android device running DSH Go 1.0.12 with DSH 0.2.2-rc.1. Install from [this repository's v1.6.85 release](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85). The community market index mentioned below still points to the upstream community build.
 
 ## What it is
 
