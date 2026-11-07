@@ -1,240 +1,52 @@
-<div align="center">
-
 # dsh-purge · DSH Go 版
 
-**让 AI 更专注地辅助你的学习与动手实验。**
+在 DSH Go 的手机本机引擎中管理宿主补丁、提示词和规则，并查看状态、备份与回滚。安装后可减少连续任务中的重复确认和中断。
 
-给 DeepSeek Harness 的自托管控件（俗称「破甲」插件）· 86 条宿主补丁 · 25 层状态自检 · 左侧栏整页设置
+当前版本 **1.6.85**。本仓库基于 [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)，社区版源自 [小杨 / YuJunZhiXue 的 dsh-purge](https://github.com/YuJunZhiXue/dsh-purge)。保留原作者署名和 MIT 许可证；本项目不是 DeepSeek、DSH Go 或上游作者的官方发行。[English](docs/README.en.md)
 
-[![Release](https://img.shields.io/github/v/release/2974357638/dsh-purge-go?label=release)](https://github.com/2974357638/dsh-purge-go/releases)
-[![Checks](https://github.com/2974357638/dsh-purge-go/actions/workflows/community.yml/badge.svg)](https://github.com/2974357638/dsh-purge-go/actions/workflows/community.yml)
+## 适用范围
 
-当前版本 **1.6.85** · 基于社区版 1.6.84，适配 **DSH Desktop 0.2.2-rc.1** · 用户已在 **DSH Go 1.0.12**（内置 DSH 0.2.2-rc.1）验证社区版基本功能 · [English](docs/README.en.md)
+本说明面向 **DSH Go 1.0.12 的手机本机引擎**，其内置 DSH 版本为 0.2.2-rc.1。使用者此前在一台 Android 设备上测试过社区版的安装和基本功能；本仓库重新打包的 1.6.85 尚未在该手机上复测。
 
-1.6.84 为已授权测试入口增加一次性命令执行挑战，区分文件写入与命令执行。[发行说明](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)。
+安装目标取决于当前主机。先在 DSH Go 切换到「本机」，确认本机引擎已启动且处于正常模式；如果当前连接电脑或服务器，在那边执行命令会安装到远程主机。手机本机引擎使用 `web` profile。[DSH Go 主机与插件文档](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/plugins/hosts.md)
 
-**来源**：本版基于 [kingcharleslzy-ai 的 dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84)；社区版基于 [小杨 / YuJunZhiXue 的 dsh-purge](https://github.com/YuJunZhiXue/dsh-purge)。保留原作者署名、版权与 MIT 许可证。本版不是 DeepSeek、DSH Go、社区版维护者或原作者的官方发行。
+内部包名仍是 `dsh-purge-community`，命令仍是 `purge-community`，以保持社区版的安装兼容性；GitHub 仓库与界面名称显示为「DSH Go 版」。
 
-</div>
+## 第一步：在 App 终端用 Bash 安装
 
----
+打开 DSH Go 自带的「终端」，在本机环境的 Bash 中运行：
 
-## DSH Go 版说明
-
-本版只调整界面名称、说明文档和发行来源；插件核心逻辑沿用社区版 1.6.84。为保持安装兼容，内部包名仍为 `dsh-purge-community`，命令仍为 `purge-community`。使用者在一台 Android 设备上的 DSH Go 1.0.12 测试过社区版的安装和基本功能；此处新打包的 1.6.85 尚未在该手机上复测。
-
-在 DSH Go 使用 `web` profile 的同一实例中安装或升级：
-
-```sh
+```bash
 dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
 ```
 
-已有社区版时请直接在原 profile 升级，保留设置和备份；安装后重新打开 DSH Go，再用 `purge-community selfcheck --text` 核对状态。下方保留了社区版的桌面功能说明，桌面测试结果不能直接推断为手机端全部通过。
+命令成功后，打开「设置 › 插件 › 已安装」，确认 `dsh-purge-community` 已安装并启用。**这一步只安装插件包，不会自动完成宿主补丁应用和 shim 注入。** 不要把地址换成裸 npm 包名，也不要在手机外的终端执行后误以为装进了手机。
 
-## 搭配：本机出图（Qwen Studio）
+## 第二步：应用补丁、备份和 shim 注入
 
-破甲之后最直接的玩法，是把「生图」也搬到本机——不用网页、不用会员、不把提示词发到别人服务器。
+1. 在插件详情打开网页界面；若 App 没有显示完整面板，点「在网页版打开」。在网页版左侧栏进入「DSH Go 版 › 状态」。
+2. 点击 **「应用」**。插件会先备份宿主文件，再写入适用的清洗补丁，并处理所需的 shim 注入。备份、补丁和 shim 属于这一轮操作，并非三个独立按钮。
+3. 等待结果，查看补丁、备份和 shim 的逐项状态。若补丁仍「待应用」或「没对上」、备份失败，或 shim 报错，请先查看诊断；某项 shim 标为「不适用」时，无需强行要求它显示「已注入」。
 
-配套插件 **Qwen Studio**（`dsh-qwen-studio`）把 Qwen Image 2.1 接进 DSH：
+插件升级或内置 DSH 更新后，也要重新点击「应用」。若页面提示无法定位宿主，先确认当前选中手机本机引擎和 `web` profile。[DSH Go 插件界面说明](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/guide/zh/08-plugins.md)
 
-- **Apple Silicon Mac**：MLX / MFLUX 本机推理，模型用时加载、空闲释放；
-- **Windows / Linux + NVIDIA**：连你自己的 GPU 网关（ComfyUI 或 vLLM-Omni 协议），也支持 SSH 按需拉起；
-- 支持参考图编辑（按图改画风、换材质）、LoRA、ControlNet、蒙版、整套预设、图库与批量任务；
-- 装好之后，会话里直接说「画一张…」或「把这张改成水彩」，Agent 调用 `qwen_generate_image` 并把图返回到对话里。
+## 第三步：重启本机引擎并核对
 
-**组合效果**：破甲让 Agent 不再反复确认「要不要画」，出图插件让它真的画出来，全程在你自己的机器上完成。
+应用成功后，在 DSH Go 打开 **「设置 › 本机引擎 › 重启」**。重启会中断进行中的对话，请在当前任务结束后操作。仅刷新网页版或关闭页面，不会让运行中的引擎加载已写入的宿主代码。[DSH Go 本机引擎指南](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/guide/zh/03-engine-hosts.md)
 
-**仓库**：[kingcharleslzy-ai/dsh-qwen-studio](https://github.com/kingcharleslzy-ai/dsh-qwen-studio) · **下载**：[最新 Releases](https://github.com/kingcharleslzy-ai/dsh-qwen-studio/releases/latest) · **安装与硬件自查**：[docs/SETUP.md](https://github.com/kingcharleslzy-ai/dsh-qwen-studio/blob/main/docs/SETUP.md)（先看「这台机器能不能跑」再动手）
+引擎重新启动后，回到「DSH Go 版 › 状态」刷新，确认补丁不再待应用，备份和 shim 状态符合本机报告。若 App 终端能找到该 profile 的命令，也可运行 `purge-community selfcheck --text` 查看逐层诊断；找不到该命令时以面板为准，不要另装同名 npm 包。
 
-## 它是什么
+## 更新与排查
 
-dsh-purge Community 是一个跑在你自己机器上的 Harness 附加组件。它把日常使用里最消耗注意力的几件事收敛到一处：
+从本仓库升级时，在**同一个本机 `web` profile**重新运行上述 Bash 命令，再「应用」并重启本机引擎。已有社区版时无需先卸载。安装包及校验文件见 [v1.6.85 Release](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85)。
 
-- **看清楚状态**：安装、补丁、注入到底有没有就绪，一条命令或一屏面板给结论；
-- **少一些往返**：把反复出现的确认与打断，收敛成一次设置；
-- **随时能回去**：应用、回滚、开关都留记录，操作前自动快照；
-- **方便做实验**：提示词、规则、预设集中管理，改坏了能撤。
+如果安装报错、状态未变或补丁没对上，保留错误信息，先核对当前主机、profile、补丁状态和本机备份。安装命令退出成功不代表补丁已经生效。问题可提交至 [Issues](https://github.com/2974357638/dsh-purge-go/issues)。
 
-目标很简单：**让助手更连贯地配合你的学习与动手实验**，而不是每做一步都先停下来问一句。
+## 参考与致谢
 
-社区里通常把它叫作「破甲」或「无限制模式」插件——指的是它降低了交互层面的摩擦，让 agent 能连续执行任务；它不改模型本身，也不改变你要做的事。
-
-### 下载时报 `fetch failed`？
-
-1.6.39 起，独立安装器会显示失败阶段和错误码，有限重试后可切换系统 curl；两条通道都保留来源、证书和 SHA256 校验。请先重新下载安装脚本再运行 dry-run，仍失败时提交脱敏诊断行即可。见 [下载排查说明](docs/maintenance-issue-52.md)。不会自动修改代理或重启 DSH。
-
-### 让不同预设保留自己的提示词
-
-1.6.40 新增 `excludePresets`：默认空列表，保持原有行为；可将 `roleplay`、`minimal` 等预设排除在 Purge 提示词注入之外，保留命令、面板与工具。切换预设、并行会话和子 Agent 各自判断，宿主兜底也遵守排除。配置示例、升级步骤与边界见 [按预设排除说明](docs/maintenance-issue-53.md)。这不会撤销全局宿主补丁。
-
-## 设计原则
-
-| 原则 | 含义 |
-| --- | --- |
-| 本机优先 | 全部逻辑在本机运行，不改云端账号、不上传提示词或配置 |
-| 可见 | 每个动作都有状态与证据，不靠"应该生效了"这种判断 |
-| 可回滚 | 应用 / 安装 / 回滚前自动快照，保留原文件与校验清单 |
-| 不替你做决定 | 只减少摩擦，不改变你的目标；改什么、开什么，都由你确认 |
-
-## 适用场景
-
-本机学习、个人项目、自动化实验与维护工作。请在你拥有或已获授权的环境中使用；涉及他人系统时，先取得许可。
-
-## 1.6.39 更新
-
-修复独立安装器只显示 `fetch failed` 的问题：分阶段诊断、有限重试和系统 curl 备用下载，继续严格校验官方来源、证书和 SHA256。下载失败不触碰现有安装。[发行说明](docs/releases/1.6.48.md) · [配置与验收](docs/maintenance-issue-52.md)
-
-## 安装
-
-**DSH 官方入口负责安装插件；下面的社区安装器由本仓库维护，不是 DeepSeek 官方脚本。** 首次安装可用官方界面或 CLI；已经装过 `dsh-purge` / 旧独立面板时，用社区安装器原地迁移，不要先卸载。安装、应用宿主补丁、手动重启是独立动作。
-
-### 方式一：DSH 官方界面（首次安装）
-
-1. 先打开 DSH 完成初始化。按当前官方文档，进入「插件」，点击「实验性插件」旁的「更多」，启用「自定义插件市场」；然后进入「发现 → 添加索引源」。
-2. 上游社区版的**社区索引**：`https://kingcharleslzy-ai.github.io/dsh-purge/index.json`。此索引安装的是上游社区版；安装本仓库的 DSH Go 版请使用方式二。
-3. 选择 dsh-purge Community，核对来源为 `kingcharleslzy-ai/dsh-purge`、包名为 `dsh-purge-community`，确认后安装。
-
-界面和安装协议由 DSH 提供，索引与插件由社区维护。不同 DSH 版本的入口文字可能不同；第三方 `dsh-market` 也可能有额外的筛选与迁移限制。已有旧包时请使用方式三。[官方市场说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/plugin-market.zh.md)
-
-### 方式二：DSH 官方 CLI（首次安装）
-
-下面命令适用于**已经安装 `dsh` 命令、且使用 `web` profile 的 CLI/Web 用户**，在 macOS/Linux 终端或 Windows PowerShell 中运行。桌面版用户优先用上面的界面；不要为了安装插件再用 `npx` 下载另一套宿主。
-
-```sh
-dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
-```
-
-`web` 必须与实际启动的 profile 一致；自定义数据目录需要沿用该实例的 `DSH_HOME`。命令使用本次发行的固定版本 URL；不是 `npm install -g`，也不是安装裸 npm 包名。本项目通过 GitHub 发行，**不要替换成 `add dsh-purge` 或 `add dsh-purge-community`**。官方 CLI 的安装不会额外运行我们安装器的 Release SHA256 比对及迁移快照；需要这些功能时选方式三。[官方 CLI 安装说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/develop/basic/publish.zh.md)
-
-### 方式三：社区安装器（备份、旧版迁移、恢复）
-
-先安装并打开一次 DSH，让实际 profile 初始化。以下命令下载**本仓库的脚本**，先校验，再安装；`dry-run` 通过仅代表前置检查、下载和 SHA256 通过，不代表依赖安装、迁移或启动已通过。请先阅读下载的脚本。
-
-#### macOS Desktop
-
-默认应用位置 `/Applications/DeepSeek Harness.app`、数据目录 `~/.dsh`、profile `desktop`。将下面两段放在同一个终端会话中执行：
-
-```sh
-PURGE_INSTALL_DIR="$(mktemp -d)"
-curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
-sh "$PURGE_INSTALL_DIR/install.sh" --dry-run
-```
-
-校验成功、核对目标实例后执行：
-
-```sh
-sh "$PURGE_INSTALL_DIR/install.sh"
-```
-
-自定义应用或 home 时，先设置 `DSH_APP` / `DSH_HOME`；自定义 profile 对两次命令都加 `--profile=实际名称`。不要照抄别人的路径。 macOS 支持从 XML/二进制 plist 读取真实可执行文件名；元数据无效会停止，不会换用其他应用。详见[定位边界](docs/INSTALLATION.md#应用定位边界pr-78)。
-
-#### Windows Desktop · PowerShell 5.1 / 7
-
-脚本会尝试定位唯一的 DSH Desktop，默认 home 为用户的 `.dsh`。旧 Desktop CLI 默认 profile 为 `desktop`，带独立 dsh CLI 的新壳默认为 `web`；自定义 profile 用 `-Profile` 指定。不要求管理员权限；路径含空格也支持。
-
-```powershell
-$PurgeInstaller = Join-Path $env:TEMP ('purge-install-' + [guid]::NewGuid().ToString('N') + '.ps1')
-Invoke-WebRequest -UseBasicParsing -TimeoutSec 90 -Uri 'https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.ps1' -OutFile $PurgeInstaller
-powershell -NoProfile -ExecutionPolicy Bypass -File "$PurgeInstaller" -DryRun
-```
-
-上一条退出码为 0、核对目标实例后，在同一个 PowerShell 会话中执行：
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File "$PurgeInstaller"
-```
-
-找不到应用或有多个副本时，对两次命令都增加 `-DshExe '实际的 DeepSeek Harness.exe 完整路径'`；自定义目录用 `-DshHome`、profile 用 `-Profile`。`ExecutionPolicy Bypass` 只作用于这次子进程，不修改持久执行策略；组织策略仍可能禁止执行，遇到时报告错误，不修改系统策略。
-
-#### Linux · CLI / Web
-
-先安装 Node ≥18 和 DSH CLI，并初始化实际使用的 profile。以下从下载开始，不要求已 clone 本仓库：
-
-```sh
-PURGE_INSTALL_DIR="$(mktemp -d)"
-curl -fSL --connect-timeout 20 --max-time 90 "https://raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.sh" -o "$PURGE_INSTALL_DIR/install.sh"
-sh "$PURGE_INSTALL_DIR/install.sh" --dry-run
-```
-
-校验成功后，在同一终端执行 `sh "$PURGE_INSTALL_DIR/install.sh"`。默认使用 PATH 中的 `node` / `dsh` 与 `web` profile。自定义实例在两次调用中保持 `DSH_NODE`、`PURGE_DSH_CLI`、`DSH_HOME`、`--profile=名称` 一致。
-
-### 安装会改什么，以及怎么确认
-
-- 社区安装器在迁移前备份，调用当前实例的官方 `dsh plugin --profile … add …`，再核对安装版本和入口；保留提示词、规则、更新偏好及其他插件设置。
-- **不是“完全不碰宿主目录”**：解包桌面布局缺失/损坏 `app/runtime` 链接时，会保留旧链接并修复到该安装的 runtime；冲突则停止。Linux 系统宿主只读时可能创建用户副本，并在成功后切换用户启动器。详见[安装指南](docs/INSTALLATION.md)。
-- 插件加载前若市场安装失败（issue #7），插件本身尚未运行；先读脱敏错误、核对依赖来源，不能承诺安装器能修复所有市场或网络错误。
-- 不自动应用宿主补丁、不自动重启、不改代理、不修改全局 npm 源或清空缓存。脚本和 bootstrap 从本仓库 `master` 下载；Release 包另做 SHA256 校验，这不是对下载脚本的独立签名验证。
-- 命令退出码非零就视为失败。安装成功后记录 `backup_id`，核对磁盘版本；运行中的 DSH 仍可能显示旧版，待用户方便时手动退出重开。`dry-run` 成功、备份存在或市场卡片出现都不能替代安装成功证据。
-- 回滚优先用「Purge → 状态 → 本机备份」，选择本次安装前的备份；无界面时按[安装指南中的 CLI 回滚](docs/INSTALLATION.md#cli-rollback)执行。不要假设 `purge-community` 已加入系统 PATH。
-
-完整的实例选择、回滚与失败恢复步骤见 [安装指南](docs/INSTALLATION.md)，Agent 必须先读 [AGENTS.md §12](AGENTS.md#installation)。
-
-## 面板
-
-左侧栏一整页，不做悬浮按钮：
-
-- 顶部一句话说明当前状态，主操作是「应用」；
-- 其余分区折叠，说明收进 `?`，需要时再展开；
-- 维护页可看最近动作、备份占用、更新偏好；
-- 支持隐藏不用的入口（例如回退按钮），只影响显示。
-
-## 常用命令
-
-| 命令 | 作用 |
-| --- | --- |
-| `purge-community selfcheck [--json]` | 逐层状态与证据；不适用项单独标注 |
-| `purge-community status` | 宿主路径与计数 |
-| `purge-community host-status` | 只读查看安装布局与当前入口（不换包、不重启） |
-| `purge-community diagnose` | 锚点漂移诊断，给出文件、行号与候选落点 |
-| `purge-community reanchor …` | 把确认过的新锚点钉成本地覆盖，可撤销 |
-| `purge-community probe [new]` | 生成运行时探针，验证注入确实送达模型 |
-| `purge-community audit [--limit n]` | 最近动作记录 |
-| `purge-community boost [on\|off]` | 尾部强化段开关 |
-| `purge-community preset [status\|install]` | 「无限制模式」预设落盘 |
-| `purge-community retry [on\|off]` | 回答被中断时的单次重试开关 |
-| `purge-community usage` / `prune` | 备份占用与清理 |
-| `purge-community backup` / `rollback <id>` | 快照 / 回滚插件 |
-
-## 更新
-
-维护页分别设置「自动检查」与「自动安装」，默认只检查，间隔 6 小时。安装完成不会自动重启——你决定什么时候重开。
-
-## 兼容性
-
-| 组件 | 值 |
-| --- | --- |
-| 插件 | `dsh-purge-community` 1.6.85 |
-| 已验证宿主 | DSH Desktop 0.2.2-rc.1 / 0.2.1-rc.1 / 0.2.1-rc.2 / 0.2.1-rc.3 / 0.2.1-rc.5 |
-| 其它宿主 | 允许安装，自检会标「未验证」；先看 `diagnose` |
-| Node | ≥18（桌面版自带运行时即可）；红队工具需 ≥22.5（`node:sqlite`） |
-
-## 出问题怎么办
-
-```sh
-purge-community selfcheck --json     # 先看哪一层不是 ok
-purge-community diagnose             # 锚点漂移时看候选位置
-purge-community audit --limit 20     # 最近动作
-```
-
-面板打不开时，先确认版本一致，再按 [维护文档](docs/MAINTENANCE.md) 恢复；不要直接覆盖 `Resources/app`。
-
-## 开发与验证
-
-```sh
-npm test                 # 单元与契约测试
-npm run check:docs       # 版本与文档一致性
-npm run check:client     # 面板 bundle 与源码一致
-npm run test:electron    # 真实 Electron 环境（临时目录，不改安装）
-npm run smoke            # 发行包冒烟
-```
-
-面向 AI agent 的操作说明在 [AGENTS.md](AGENTS.md)，两者冲突时以它为准。
-
-**关键词**：破甲 · 无限制模式 · unrestricted · prompt injection · jailbreak · DSH 插件 · 状态自检 · 备份回滚
-
-## 贡献者
-
-感谢原作者、代码贡献者，以及提供问题复现、分析与验证的朋友。头像链接直达 GitHub 主页；具体贡献见 [贡献记录](CONTRIBUTORS.md)，第三方来源见 [NOTICE.md](NOTICE.md)。
+- [社区版功能与桌面参考说明](docs/COMMUNITY-DESKTOP-REFERENCE.md)
+- [原社区版仓库](https://github.com/kingcharleslzy-ai/dsh-purge)
+- [版权与衍生说明](NOTICE.md) · [MIT 许可证](LICENSE)
 
 <!-- CONTRIBUTORS:START -->
 <table>
@@ -284,8 +96,4 @@ npm run smoke            # 发行包冒烟
 </table>
 <!-- CONTRIBUTORS:END -->
 
-名单合并 GitHub 提交者与人工鸣谢记录，自动每日刷新并保留历史贡献者。头像顺序不代表贡献排名，也不将问题报告者误记为代码作者。
-
-### DSH Store 收录信息
-
-DSH Store 申请必须填写 **Plugin path：`.`**，安装根目录的 `dsh-purge-community`；不要留空或选独立面板包。逐版本兼容声明已放入 manifest，未验证版本保持 `unknown`。元数据修正不等于市场已批准安装；[路径、兼容证据和收录边界](docs/DSH-STORE.md)。
+以上名单保留原项目及社区版贡献者的署名。

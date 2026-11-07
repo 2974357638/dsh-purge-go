@@ -17,7 +17,7 @@ for (const file of ["docs/MAINTENANCE.md", "docs/INSTALLATION.md"]) {
   if (!read(file).includes(`当前版本 **${version}**`)) problems.push(`${file} 当前版本未同步到 ${version}`);
 }
 for (const [file, needles] of [
-  ["README.md", ["scripts/install.ps1", "issue #7", "插件加载前", "不修改全局 npm 源"]],
+  ["README.md", ["DSH Go 1.0.12", "在 App 终端用 Bash 安装", "dsh plugin --profile web add", "备份", "shim 注入", "设置 › 本机引擎 › 重启"]],
   ["AGENTS.md", ["scripts/install.ps1", "minimumReleaseAge=0", "不要安装后自动 apply/restart"]],
 ]) {
   for (const needle of needles) if (!read(file).includes(needle)) problems.push(`${file} 缺少安装边界：${needle}`);
@@ -28,9 +28,6 @@ if (notesFirst !== `# ${version}`) {
 if (!readme.includes(`**${version}**`)) {
   problems.push(`README.md 首屏缺少版本号 **${version}**`);
 }
-if (!readme.includes("raw.githubusercontent.com/2974357638/dsh-purge-go/master/scripts/install.sh")) {
-  problems.push("README.md 缺少安装器下载命令");
-}
 if (!readmeEn.includes(`Current version ${version}`)) {
   problems.push(`docs/README.en.md 缺少 "Current version ${version}"`);
 }
@@ -40,8 +37,8 @@ if (!agents.includes(`当前版本：**${version}**`)) {
 if (!agents.includes(`\`dsh-purge-community\` ${version}`)) {
   problems.push(`AGENTS.md §9 版本表未同步到 ${version}`);
 }
-const hostLine = readme.match(/适配 \*\*DSH Desktop ([0-9a-z.\-]+)\*\*/i);
-if (!hostLine) problems.push("README.md 缺少「适配 DSH Desktop …」的版本行");
+if (readme.split("## 适用范围")[0].includes("破甲"))
+  problems.push("README.md 简介不应直接使用旧称");
 
 // Copyable release commands must move with the package version, not retain an old TGZ.
 for (const file of ["README.md", "docs/README.en.md"]) {

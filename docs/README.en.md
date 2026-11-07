@@ -1,114 +1,38 @@
-<div align="center">
-
 # dsh-purge · DSH Go Edition
 
-**Helping your AI assistant stay focused on your learning and hands-on work.**
+Manage host patches, prompts, rules, status, backups, and rollback for DSH Go's on-device engine. The plugin reduces repeated interruptions during continuous work.
 
-A self-hosted add-on for DeepSeek Harness (known in the community as a 破甲 / "jailbreak" plugin) · 86 host patches · 25 status layers
-
-[![Release](https://img.shields.io/github/v/release/2974357638/dsh-purge-go?label=release)](https://github.com/2974357638/dsh-purge-go/releases)
-
-Current version 1.6.85 · based on dsh-purge Community 1.6.84 · community build tested by a user on **DSH Go 1.0.12**
-
-**Provenance:** this edition derives from [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84), which derives from [dsh-purge by 小杨 / YuJunZhiXue](https://github.com/YuJunZhiXue/dsh-purge). Original attribution, copyright and the MIT license are retained. This is not an official release of DeepSeek, DSH Go, the community maintainer, or the original author.
-
-</div>
-
----
-
-## DSH Go edition
-
-This edition changes the visible name, documentation, and release source while retaining the community plugin's core behavior and internal package name `dsh-purge-community`. The user tested the community build on one Android device running DSH Go 1.0.12 with DSH 0.2.2-rc.1; this newly packaged edition has not been retested on that phone. Install from [this repository's v1.6.85 release](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85). The community market index mentioned below still points to the upstream community build.
-
-## What it is
-
-dsh-purge Community runs entirely on your own machine and gathers the parts of daily use that cost the most attention:
-
-- **See the state** — whether the install, patches and prompt injection are actually ready;
-- **Fewer round trips** — repeated confirmations and interruptions collapse into one setting;
-- **Always reversible** — apply, roll back and toggles are recorded, snapshotted first;
-- **Easy to experiment** — prompts, rules and presets in one place, all undoable.
-
-The goal is simple: let the assistant support your learning and hands-on experiments coherently, instead of stopping to ask before every step.
-
-People usually call this a 破甲 ("armor-breaking") or unrestrained-mode plugin: it lowers interaction friction so the agent can keep working. It does not change the model itself, and it does not change what you are trying to do.
-
-## Principles
-
-| Principle | Meaning |
-| --- | --- |
-| Local first | Everything runs locally; no cloud account changes, no uploads of prompts or config |
-| Observable | Every action reports status and evidence, never "it should be applied" |
-| Reversible | Snapshots with manifests before apply, install and rollback |
-| Never decides for you | It only removes friction; you choose what to change and enable |
+Current version 1.6.85. Derived from [dsh-purge Community 1.6.84](https://github.com/kingcharleslzy-ai/dsh-purge/releases/tag/v1.6.84), itself based on [dsh-purge by 小杨 / YuJunZhiXue](https://github.com/YuJunZhiXue/dsh-purge). Attribution and the MIT license are retained. This is not an official release of DeepSeek, DSH Go, or the upstream maintainers.
 
 ## Scope
 
-Local learning, personal projects, automation experiments and maintenance work. Use it on machines you own or are authorized to work on; get permission before touching anyone else's systems.
+These steps target the local engine in **DSH Go 1.0.12** with embedded DSH 0.2.2-rc.1. The user tested the Community build on one Android device; this repackaged 1.6.85 edition has not been retested on that phone. Select the local host and its `web` profile. A command run on a remote host installs there instead. The internal package remains `dsh-purge-community`. [DSH Go host documentation](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/plugins/hosts.md)
 
-## Install
+## 1. Install in the App's Bash terminal
 
-**DSH provides the official plugin UI and `dsh plugin` CLI. Our `install.sh` / `install.ps1` are community-maintained wrappers, not DeepSeek scripts.**
+Open DSH Go's built-in Terminal for the local engine:
 
-- First installation: use DSH's Plugins install dialog. Following the current official guide, open Plugins → More beside Experimental plugins → Custom plugin market, then Discover → Add index source. Our community index: `https://kingcharleslzy-ai.github.io/dsh-purge/index.json`. Check the owner `kingcharleslzy-ai/dsh-purge` and package `dsh-purge-community` before confirming.
-- Existing `dsh-purge` or separate panel installation: use the community installer to back up and migrate in place. Do not uninstall first or activate both packages.
-- CLI/Web users who already have `dsh` on PATH and use the `web` profile can use the official command below. Desktop users should not download another npx host to install into their existing desktop profile.
-
-```sh
+```bash
 dsh plugin --profile web add "https://github.com/2974357638/dsh-purge-go/releases/download/v1.6.85/dsh-purge-community-1.6.85.tgz"
 ```
 
-Use the actual instance's profile and `DSH_HOME`. This project distributes via GitHub; do not substitute bare npm package names. The official command does not run our extra Release SHA256 check, migration snapshot or rollback wrapper.
+Check **Settings › Plugins › Installed** and confirm `dsh-purge-community` is enabled. This installs the package; it does not apply host patches or make the shim injection effective.
 
-[Copyable macOS, Windows and Linux installer commands](../README.md#安装) start with downloading the script; no source checkout is assumed. macOS defaults to `/Applications/DeepSeek Harness.app`; Windows requires a uniquely identified exe (otherwise pass `-DshExe`). Open DSH once first to initialize its profile. Paths, custom home/profile and recovery commands are explained in the [installation guide](INSTALLATION.md).
+## 2. Apply patches, backups, and shim injection
 
-Dry-run verifies prerequisites, download and SHA256, **not** dependency installation or application startup. Scripts/bootstrap come from this repository's master branch; the archive checksum is not an independent signature for those scripts. A real installation snapshots and invokes the selected official CLI. For unpacked desktops it may repair `app/runtime`; on read-only Linux hosts it may prepare a user-owned host copy and switch a user launcher after success. It never applies host patches or restarts DSH automatically, and does not change the proxy or global npm registry.
+Open the plugin's web interface from its details using **Open in Web** if needed. In the web sidebar, open **DSH Go Edition › Status** and press **Apply**. One Apply operation backs up host files, writes applicable patches, and handles shim injection. These are not three separate buttons. Check each result; pending or unmatched patches, backup errors, or shim errors need diagnosis. A shim marked not applicable does not need to show as injected. Repeat Apply after upgrading the plugin or DSH engine. [DSH Go plugin guide](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/guide/zh/08-plugins.md)
 
-Record the exit code, installed version and backup ID. The running app can keep the old version until the user manually reopens it. `purge-community` is a profile-local command, not necessarily on global PATH; see [CLI recovery](INSTALLATION.md#cli-rollback). Official references: [bundle installation](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/develop/basic/publish.md) and [plugin markets](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/plugin-market.md).
+## 3. Restart the local engine and verify
 
-## Panel
+After Apply succeeds, use **Settings › Local Engine › Restart**. Restarting interrupts active conversations. Refreshing a web page alone does not reload patched host code. After the engine starts, refresh the Status page and check patches, backups, and shim status. If the profile-local CLI is available, `purge-community selfcheck --text` provides a layered report. [DSH Go engine guide](https://github.com/ccch1mneyyy/dsh-Go/blob/main/docs/guide/zh/03-engine-hosts.md)
 
-A full page in the left sidebar: one line of state at the top, "Apply" as the primary action, everything else collapsed, help behind `?`. The maintenance page shows recent actions, backup usage and update preferences. Unused entries can be hidden for display only.
+To upgrade, repeat the Bash command in the same local `web` profile, then Apply and restart again. Keep the prior installation in place. See the [v1.6.85 release and checksum](https://github.com/2974357638/dsh-purge-go/releases/tag/v1.6.85).
 
-## Commands
+## References and credits
 
-`selfcheck`, `status`, `host-status`, `diagnose`, `reanchor`, `probe`, `audit`, `boost`, `preset`, `retry`, `usage` / `prune`, `backup` / `rollback`. See `purge-community --help`.
-
-## Updates
-
-1.6.76 restores preset registration on DSH 0.2.2-rc.1 and verifies both observation methods on older hosts. See the [release notes](releases/1.6.76.md).
-
-Two separate preferences (check / install), default check-only every six hours. Installing never restarts the app — you decide when to reopen it.
-
-## Compatibility
-
-Plugin `dsh-purge-community` 1.6.85 · based on Community 1.6.84; the Community build was tested on DSH Go 1.0.12 and verified on DSH Desktop 0.2.2-rc.1 / 0.2.1-rc.1 / rc.2 / rc.3 / rc.5 · Node ≥ 18.
-
-## Troubleshooting
-
-```sh
-purge-community selfcheck --json
-purge-community diagnose
-purge-community audit --limit 20
-```
-
-If the panel does not open, confirm both sides run the same version, then follow [MAINTENANCE.md](MAINTENANCE.md); do not overwrite `Resources/app` directly.
-
-## Development
-
-`npm test`, `npm run check:docs`, `npm run check:client`, `npm run test:electron`, `npm run smoke`.
-
-Agent-facing instructions live in [AGENTS.md](../AGENTS.md); when the two disagree, AGENTS.md wins.
-
-**Keywords**: 破甲 · unrestricted mode · prompt injection · jailbreak · DSH plugin · status self-check · backup and rollback
-
-## 1.6.39
-
-Fixes opaque standalone installer download failures with stage-specific diagnostics, bounded retries and system curl fallback. Official HTTPS source, certificate and SHA256 verification remain mandatory. Failed downloads do not modify the existing installation. No proxy changes or automatic restart. See [release notes](releases/1.6.39.md) and [maintenance details](maintenance-issue-52.md).
-
-## Contributors
-
-Thank you to the original author, code contributors, and everyone who provided reproductions, analysis, and verification. Each avatar links to a GitHub profile. See [contribution records](../CONTRIBUTORS.md) for individual credit and [NOTICE.md](../NOTICE.md) for third-party attribution.
+- [Community and desktop reference guide](COMMUNITY-DESKTOP-REFERENCE.en.md)
+- [Source Community repository](https://github.com/kingcharleslzy-ai/dsh-purge)
+- [Attribution](../NOTICE.md) · [MIT license](../LICENSE)
 
 <!-- CONTRIBUTORS:START -->
 <table>
@@ -158,14 +82,4 @@ Thank you to the original author, code contributors, and everyone who provided r
 </table>
 <!-- CONTRIBUTORS:END -->
 
-The list combines GitHub commit authors with curated acknowledgements, refreshes daily, and retains historical contributors. Order is not a ranking; reporting an issue does not imply authorship of code.
-
-### Download troubleshooting (#52)
-
-The standalone installer now reports the failing stage, official host, transport, attempt and error code. Transient failures get one fetch retry followed by system curl, with bounded time and attempts. Both paths retain HTTPS source, TLS, size and SHA256 checks. Re-download the installer and run dry-run first; share only redacted diagnostic lines if it still fails. No proxy configuration or automatic restart is performed. See [maintenance details](maintenance-issue-52.md).
-
-## Per-preset prompt exclusions (1.6.40)
-
-Merge `excludePresets: [roleplay, minimal]` into the existing `dsh-purge` entry's config in the current profile. The default `[]` preserves existing behavior. Match effective preset IDs exactly, ignoring case and surrounding whitespace. All prompt sections, assembly rewrites and the host fallback use the same per-session decision; subagents use their own effective preset. Configured exclusions with an unknown context suppress injection rather than leaking it. Commands, UI and tools remain registered.
-
-This does not revert global host patches, deployment configuration or past chat messages. Installation does not apply patches or restart DSH; old host fallback calls need a user-scheduled apply and manual restart to pass session context. See [configuration, migration and test boundaries](maintenance-issue-53.md).
+The contributor list preserves attribution to the original project and Community maintainers.
